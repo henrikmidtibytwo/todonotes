@@ -32,6 +32,7 @@
 \usepackage[colorinlistoftodos, shadow]{todonotes}[2009/01/09]
 \usepackage{amsmath}
 \usepackage{setspace}
+\setcounter{tocdepth}{2}
 \EnableCrossrefs         
 \CodelineIndex
 \RecordChanges
@@ -126,9 +127,10 @@
 %             Ivanov.}
 % \changes{0.8.1}{2009/01/12}{Added a space between the colored
 %             square and the text in the list of todos. Added a new
-%             usecase for marking old / new sections.}
+%             usecase for marking old / new sections. Made the name
+%             of listoftodos changeable.}
 %
-% \GetFileInfo{todonotes.dtx}
+% \GetFileInfo{todonotes.dtx}   
 %
 % \DoNotIndex{\newcommand,\newenvironment}
 %
@@ -170,7 +172,7 @@
 %
 % \DescribeMacro{\todo}
 % My \index{\todo}most common usage of the todonotes package, is to 
-% insert an uncustomized todonotes somewhere in a latex document. 
+% insert an todonotes somewhere in a latex document. 
 % An example of this usage is the command 
 %
 % |\todo{Make a cake \ldots}|, 
@@ -228,7 +230,7 @@
 % Adds a small colored square in front of all items in the Todo
 % list. The color of the square is the same as the fill color of the
 % inserted todonote.
-% This can be usefull if there are different types of todos 
+% This can be useful if there are different types of todos 
 % (insert reference, explain in detail, \ldots) where the color of
 % the inserted todonote marks the type of todo.
 %
@@ -255,7 +257,7 @@
 % \DescribeMacro{textsize}
 % |textsize=value| sets the default text size of the inserted
 % todonotes to the given value.
-% Value is the ''name'' of the used fontsize, eg. if the desired
+% Value is the ''name'' of the used font size, eg. if the desired
 % fontsize is |\tiny| use |textsize=tiny|. The default value is 
 % |textsize=normalsize|.
 %
@@ -329,7 +331,7 @@
 %
 % \DescribeMacro{inline / noinline}
 % It is possible to place a todonote inside the text instead of
-% placing it in the margin, this could be desireable if the text in
+% placing it in the margin, this could be desirable if the text in
 % the note has a considerable length.
 % |\todo[inline]{A todonote placed in the text}|
 % \todo[inline]{A todonote placed in the text}
@@ -361,11 +363,11 @@
 % \DescribeMacro{size}
 % |size=val| changes the size of the text inside the todonote.
 % The commands used to create the notes below are \\ \noindent
-% |\todo[size=\Large]{A note with a large fontsize.}|
+% |\todo[size=\Large]{A note with a large font size.}|
 % and \\ \noindent
-% |\todo[inline, size=\tiny]{Note with very small fontsize.}|.
-% \todo[size=\Large]{A note with a large fontsize.}
-% \todo[inline, size=\footnotesize]{Note with very small fontsize.}
+% |\todo[inline, size=\tiny]{Note with very small font size.}|.
+% \todo[size=\Large]{A note with a large font size.}
+% \todo[inline, size=\footnotesize]{Note with very small font size.}
 %
 % \DescribeMacro{list / nolist}
 % When the option |nolist| is given, the todo item will not appear in
@@ -407,6 +409,8 @@
 % inserted by the |\missingfigure| command. 
 % The default value is |\textwidth|.
 %
+%
+%
 % \subsection{Options for the missingfigure command}
 %
 % \DescribeMacro{figwidth}
@@ -435,9 +439,17 @@
 % \end{wrapfigure}
 % \end{verbatim}
 % 
+%
+%
 % \subsection{Options for the listoftodos command}
-% Currently the listoftodos command takes no optional arguments.
+% The |\listoftodos| command takes one optional argument, that
+% defines the name of the inserted list of todos.
+% \begin{verbatim}
+% \listoftodos[I can be called anything]
+% \end{verbatim}
 % 
+%
+%
 % \subsection{Known issues}
 % \subsubsection{Package loading order}
 % The todonotes package requires the following packages.
@@ -445,7 +457,6 @@
 % \begin{itemize}
 % \item ifthen
 % \item xkeyval
-% \item hyperref
 % \item xcolor
 % \item tikz
 % \item calc
@@ -467,15 +478,24 @@
 % items in the list of todos are not wrapped into several lines, and
 % do instead continue to the right out of the page.
 %
-% 
-% \subsubsection{amsart and listoftodos is incompatible}
-% \ldots
-% 
+%
+% \subsubsection{Conflicts with the amsart documentclass}
+% The |amsart| document class redefines some internal commands that
+% is used by the todonotes package, this will cause an malfunctioning
+% |\listoftodos| command.
+% The following code to circumvent the problem was given by Dan
+% Luecking on comp.text.tex
+% \begin{verbatim}
+% \makeatletter
+%   \providecommand\@dotsep{5}
+% \makeatother
+% \listoftodos\relax 
+% \end{verbatim}
 %
 %
 % \subsection{Things to improve}
 % This is a list of things I consider to improve sometime in the
-% future. I havent been done yet as I lack the time or skills to
+% future. It have not been done yet as I lack the time or skills to
 % implement them.
 % Patches with implementations of these tasks will be appreciated
 % and might be included in the package if it will improve the
@@ -544,7 +564,7 @@
 %
 % Thomas Arildsen has mailed me this use case. Check the
 % documentation for the |fixme| package, as the code below relies
-% directly on it (the |\FDUser| command is augumented when
+% directly on it (the |\FDUser| command is augmented when
 % |\begin{document}| is reached).
 % \begin{verbatim}
 % \usepackage[user,nomargin]{fixme}
@@ -554,7 +574,7 @@
 %
 %
 %
-% \subsubsection{Altering the linespacing of todonotes}
+% \subsubsection{Altering the line spacing of todonotes}
 %
 % The |setspace| package lets you alter the line spacing of smaller
 % sections of your document. The primary construct is the
@@ -600,9 +620,9 @@
 %
 % \subsubsection{Comments ''a la Word''}
 %
-% Fabrice Niessen sent me the following usecase.
+% Fabrice Niessen sent me the following use case.
 % The idea is to define a new command |\mycomment| which adds a
-% counter and optionally the initials of the auther to the inserted
+% counter and optionally the initials of the author to the inserted
 % todonote.
 % 
 % \begin{verbatim}
@@ -690,7 +710,6 @@
 \ProvidesPackage{todonotes}[2009/01/09]
 \RequirePackage{ifthen}
 \RequirePackage{xkeyval}
-\RequirePackage{hyperref}
 \RequirePackage{xcolor}
 \RequirePackage{tikz}
 \RequirePackage{calc}
@@ -933,7 +952,7 @@
 % define empty commands.
 %    \begin{macrocode}
 \if@todonotes@disabled%
-    \newcommand{\listoftodos}{}
+    \newcommand{\listoftodos}[1][]{}
     \newcommand{\todo}[2][]{\ignorespaces}
     \newcommand{\missingfigure}[2]{}
 \else % \if@todonotes@disabled
@@ -941,8 +960,8 @@
 % Define the |\listoftodos| command and define the 
 % appearance of the list of todos.
 %    \begin{macrocode}
-\newcommand{\listoftodos}
-    {\section*{\@todonotes@todolistname} \@starttoc{tdo}}
+\newcommand{\listoftodos}[1][\@todonotes@todolistname]
+    {\section*{#1} \@starttoc{tdo}}
 \newcommand{\l@todo}
     {\@dottedtocline{1}{0em}{2.3em}}
 %    \end{macrocode}
